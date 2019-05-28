@@ -1,0 +1,103 @@
+---
+title: "Shiny Dashboard Nasa"
+author: "Connor Guest"
+date: "5/28/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("shinydashboard")
+#install.packages("shiny")
+library(shiny)
+library(shinydashboard)
+```
+
+
+```{r}
+# Create an empty header
+header <- dashboardHeader()
+
+# Create an empty sidebar
+sidebar <- dashboardSidebar()
+
+# Create an empty body
+body <- dashboardBody()
+
+# Create the UI using the header, sidebar, and body
+ui <- dashboardPage(header, sidebar, body)
+
+server <- function(input, output) {}
+
+shinyApp(ui, server)
+```
+
+```{r}
+header <- dashboardHeader(
+    dropdownMenu(
+    type = "messages",
+    messageItem(
+        from = "Lucy",
+        message = "You can view the International Space Station!",
+        href = "https://spotthestation.nasa.gov/sightings/"
+        ),
+    # Add a second messageItem() 
+    messageItem(
+        from = "Lucy",
+        message = "Learn more about the International Space Station",
+        href = "https://spotthestation.nasa.gov/faq.cfm"
+        )),
+    dropdownMenu(
+    type = "notifications",
+    notificationItem(
+        text = "The International Space Station is overhead!"
+      )),
+    dropdownMenu(
+    # Create a tasks drop down menu
+    type = "tasks",
+    taskItem(
+      text = "Mission Learn Shiny Dashboard",
+      value = 10)
+    ))
+
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+  # Create two `menuItem()`s, "Dashboard" and "Inputs"
+    menuItem(text = "Dashboard",
+            tabName = "dashboard"
+            ), 
+    menuItem(text = "Inputs", 
+            tabName = "inputs"
+            ),
+    sliderInput(
+    inputId = "height",
+    label = "Height",
+    min = 66,
+    max = 264,
+    value = 264)
+    ))
+
+body <- dashboardBody(
+  # Create a tabBox
+  tabItems(
+    tabItem(
+      tabName = "dashboard",
+      tabBox(
+        title = "International Space Station Fun Facts",
+        tabPanel("Fun Fact 1"),
+        tabPanel("Fun Fact 2")
+        )
+    ),
+    tabItem(tabName = "inputs")
+  ))
+
+ui <- dashboardPage(header = header,
+                    sidebar = sidebar,
+                    body = body
+                    )
+shinyApp(ui, server)
+```
+
